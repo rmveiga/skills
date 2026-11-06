@@ -4,7 +4,7 @@ Skill para o Claude montar **programas de estudo de idiomas ultra-personalizados
 
 ## Inspiração
 
-Esta skill nasceu dos prompts mostrados no vídeo **"Learning ENGLISH has NEVER been this EASY"**, do canal Luis Mota:
+Esta skill nasceu dos prompts mostrados no vídeo **"Nunca foi tão FÁCIL aprender INGLÊS"**, do canal Luis Mota:
 ▶️ https://www.youtube.com/watch?v=nVlM7IYEHvE
 
 Os prompts originais criavam um plano de inglês com base em Natural Method e Comprehensible Input e depois o transformavam em um roteiro HTML. A skill generaliza a ideia para qualquer idioma, adiciona teste de nivelamento CEFR, definição automática do nível-alvo a partir do objetivo, estimativa de prazo com premissas explícitas e um template HTML padronizado.
