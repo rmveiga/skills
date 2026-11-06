@@ -1,0 +1,202 @@
+{
+  "id": "exemplo-ingles-ciclo1",
+  "titulo": "Pocket Polyglot — Inglês (exemplo)",
+  "idioma_alvo": "Inglês",
+  "idioma_usuario": "pt-BR",
+  "nivel_atual": "B1",
+  "nivel_origem": "teste_ia",
+  "nivel_alvo": "B2",
+  "objetivo": "Reuniões e entrevistas em inglês",
+  "minutos_por_dia": 30,
+  "dias_estudo": [
+    "seg",
+    "ter",
+    "qua",
+    "qui",
+    "sex"
+  ],
+  "ciclo": 1,
+  "vocab_minimo": 3,
+  "vocab_semanas_completas": 1,
+  "estimativa": "~9 a 18 meses até B2 (30 min × 5 dias + 5 h/semana de passivo)",
+  "rotina_passiva": [
+    {
+      "momento": "Trajeto (30 min)",
+      "conteudo": "15 min ouvindo o episódio da semana + 15 min falando em voz alta: repetir sua resposta corrigida da semana e respondê-la sem apoio"
+    }
+  ],
+  "micro_habitos": [
+    "Narrar o café da manhã em inglês"
+  ],
+  "semana_tipo": {
+    "seg": {
+      "foco": "Input + vocabulário",
+      "blocos": [
+        {
+          "atividade": "Escuta ativa",
+          "recurso": "{input}",
+          "minutos": 15,
+          "instrucoes": "Ouvir 1 vez sem transcrição, depois com; minerar 5 frases sobre {tema}."
+        },
+        {
+          "atividade": "Flashcards",
+          "recurso": "Anki",
+          "minutos": 15,
+          "instrucoes": "Revisões + até 12 cartões novos do vocabulário da semana."
+        }
+      ]
+    },
+    "ter": {
+      "foco": "Gramática + escrita",
+      "blocos": [
+        {
+          "atividade": "Gramática",
+          "recurso": "Explicação do roteiro",
+          "minutos": 10,
+          "instrucoes": "Estudar {gramatica} e escrever 5 frases próprias."
+        },
+        {
+          "atividade": "Escrita com IA",
+          "recurso": "Claude",
+          "minutos": 20,
+          "instrucoes": "{escrita} Pedir correção explicada e guardar a versão corrigida."
+        }
+      ]
+    },
+    "qua": {
+      "foco": "Shadowing",
+      "blocos": [
+        {
+          "atividade": "Flashcards",
+          "recurso": "Anki",
+          "minutos": 10,
+          "instrucoes": "Só revisões."
+        },
+        {
+          "atividade": "Shadowing",
+          "recurso": "{input}",
+          "minutos": 20,
+          "instrucoes": "Trecho de 60 s: ouvir, ler, repetir com 1 s de atraso, gravar e comparar."
+        }
+      ]
+    },
+    "qui": {
+      "foco": "Roleplay",
+      "blocos": [
+        {
+          "atividade": "Flashcards",
+          "recurso": "Anki",
+          "minutos": 10,
+          "instrucoes": "Revisões + novos."
+        },
+        {
+          "atividade": "Roleplay com IA",
+          "recurso": "Claude",
+          "minutos": 20,
+          "instrucoes": "{roleplay}"
+        }
+      ]
+    },
+    "sex": {
+      "foco": "Revisão + Barril",
+      "blocos": [
+        {
+          "atividade": "Revisão",
+          "recurso": "Anotações da semana",
+          "minutos": 15,
+          "instrucoes": "Rever erros recorrentes e frases mineradas."
+        },
+        {
+          "atividade": "Barril de Conteúdos",
+          "recurso": "Pastas do Barril",
+          "minutos": 15,
+          "instrucoes": "Abastecer o Barril com 3 conteúdos sobre {tema}."
+        }
+      ]
+    }
+  },
+  "semanas": [
+    {
+      "numero": 1,
+      "tema": "Apresentando-se no trabalho",
+      "objetivo_semana": "Falar 2 minutos sobre você e sua função",
+      "gramatica": {
+        "topico": "Present simple vs. present continuous",
+        "explicacao": "Rotina vs. o que está acontecendo agora.",
+        "exemplos": [
+          "I work as a QA analyst.",
+          "I'm testing a new feature this week."
+        ]
+      },
+      "tarefas": {
+        "input": "6 Minute English — episódio sobre trabalho",
+        "escrita": "Escreva 100 palavras se apresentando como num 'Tell me about yourself'.",
+        "roleplay": "Peça à IA para ser um entrevistador e perguntar sobre sua rotina."
+      },
+      "vocabulario": [
+        "to be in charge of | ser responsável por | I'm in charge of regression tests.",
+        "deadline | prazo | The deadline is next Friday.",
+        "to follow up | dar retorno | I'll follow up by email."
+      ],
+      "recursos": [
+        {
+          "nome": "BBC Learning English",
+          "tipo": "podcast",
+          "url": "https://www.bbc.co.uk/learningenglish",
+          "como_usar": "1 episódio por semana"
+        }
+      ],
+      "checkpoint": {
+        "titulo": "Gravação de base",
+        "tarefa": "Grave 2 minutos respondendo 'Tell me about yourself' sem apoio. Guarde para comparar na semana 8.",
+        "criterios": [
+          "Fluência: pausas longas?",
+          "Precisão: erros que atrapalham?",
+          "Conteúdo: exemplos concretos?"
+        ]
+      }
+    },
+    {
+      "numero": 2,
+      "tema": "Reuniões de status",
+      "objetivo_semana": "Dar um update de 1 minuto numa daily",
+      "gramatica": {
+        "topico": "Present perfect para updates",
+        "explicacao": "Ações recentes com impacto no presente.",
+        "exemplos": [
+          "I've finished the test plan."
+        ]
+      },
+      "tarefas": {
+        "input": "Vídeo curto sobre daily meetings",
+        "escrita": "Escreva o update de uma daily (80 palavras).",
+        "roleplay": "Simule uma daily: a IA é a Scrum Master e pergunta sobre bloqueios."
+      },
+      "vocab_foco": [
+        "status e progresso",
+        "bloqueios e riscos",
+        "prazos"
+      ],
+      "recursos": [
+        {
+          "nome": "YouGlish",
+          "tipo": "pronúncia",
+          "como_usar": "Ouvir 'blocker', 'on track' ditos por nativos"
+        }
+      ],
+      "substituir_dias": {
+        "sex": {
+          "foco": "Mini-roleplay de daily",
+          "blocos": [
+            {
+              "atividade": "Roleplay",
+              "recurso": "Claude",
+              "minutos": 30,
+              "instrucoes": "Três dailies seguidas, cada uma com um bloqueio diferente."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

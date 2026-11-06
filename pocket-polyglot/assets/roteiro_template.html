@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocket Polyglot</title>
+<style>
+:root{
+  --bg:#f7f5f0; --surface:#ffffff; --surface-2:#f0ede6; --text:#1f2328; --muted:#5e6570;
+  --border:#e2ddd3; --accent:#1f6f5c; --accent-soft:#dcefe8; --warn:#9a5b00; --done:#2f8f4e;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15181c; --surface:#1d2126; --surface-2:#252a30; --text:#e8eaed; --muted:#9aa3ad;
+    --border:#30363d; --accent:#5cc4a6; --accent-soft:#1d3a33; --warn:#e0a84a; --done:#5fcf85;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15181c; --surface:#1d2126; --surface-2:#252a30; --text:#e8eaed; --muted:#9aa3ad;
+  --border:#30363d; --accent:#5cc4a6; --accent-soft:#1d3a33; --warn:#e0a84a; --done:#5fcf85;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--border)}
+h1{font-size:1.5rem;margin:0 0 2px}
+.sub{color:var(--muted);font-size:.92rem}
+.progress{margin-top:10px;display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:12px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--border)}
+.bar>span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.pct{font-weight:700;font-variant-numeric:tabular-nums;min-width:4.5ch;text-align:right;font-size:1.2rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:14px 0;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.kv{font-size:.9rem}.kv b{display:block;color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+h2{font-size:1.1rem;margin:0 0 8px}
+h3{font-size:1rem;margin:14px 0 6px}
+ul.plain{margin:4px 0;padding-left:18px}
+details.week{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:12px 0;box-shadow:var(--shadow)}
+details.week>summary{cursor:pointer;list-style:none;padding:14px 16px;display:flex;gap:12px;align-items:center}
+details.week>summary::-webkit-details-marker{display:none}
+.wnum{flex:none;width:44px;height:44px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800}
+.wtitle{flex:1;min-width:0}.wtitle strong{display:block}
+.wtitle small{color:var(--muted)}
+.wprog{font-size:.85rem;color:var(--muted);white-space:nowrap}
+.wbody{padding:0 16px 16px}
+.days{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.day{border:1px solid var(--border);background:var(--surface-2);color:var(--text);border-radius:10px;padding:8px 12px;cursor:pointer;font:inherit;font-size:.9rem;min-width:84px;text-align:left}
+.day[aria-expanded="true"]{outline:2px solid var(--accent)}
+.day.done{background:var(--accent-soft);border-color:var(--accent)}
+.day.done::after{content:" ✓";color:var(--done);font-weight:700}
+.day.passive{opacity:.7;cursor:default}
+.day small{display:block;color:var(--muted);font-size:.76rem}
+.daypanel{border:1px solid var(--border);border-radius:10px;padding:12px;margin-top:6px;background:var(--surface)}
+.block{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:8px 0;border-top:1px dashed var(--border)}
+.block:first-of-type{border-top:0}
+.min{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.block .res{color:var(--muted);font-size:.88rem}
+label.check{display:flex;gap:8px;align-items:center;margin-top:10px;font-weight:600;cursor:pointer}
+label.check input{width:20px;height:20px;accent-color:var(--accent)}
+.tag{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--border);color:var(--muted);margin-right:4px}
+.vocab-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=search]{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);flex:1;min-width:160px}
+.tablewrap{overflow-x:auto;max-height:380px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:6px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:var(--surface-2)}
+td.ex{color:var(--muted);font-style:italic}
+a{color:var(--accent)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+button.btn{font:inherit;font-size:.85rem;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer}
+button.btn:hover{border-color:var(--accent)}
+.note{font-size:.82rem;color:var(--muted)}
+.aviso{margin:12px 0 0;padding:10px 12px;border-radius:8px;border:1px solid var(--warn);color:var(--text);background:var(--surface-2);font-size:.88rem}
+.gram-ex{margin:4px 0;padding-left:18px}
+.min{white-space:nowrap}
+@media (max-width:560px){.block{grid-template-columns:56px 1fr;gap:8px}.min{font-size:.85rem}.wprog{display:none}h1{font-size:1.25rem}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap" style="padding-top:0;padding-bottom:0">
+  <h1 id="titulo">Pocket Polyglot</h1>
+  <div class="sub" id="subtitulo"></div>
+  <div class="progress" aria-label="Progresso geral">
+    <div class="bar"><span id="barfill"></span></div>
+    <div class="pct" id="pct">0%</div>
+  </div>
+  <div class="sub" id="contagem"></div>
+</div></header>
+
+<main class="wrap">
+  <section class="card" id="resumo"></section>
+  <section id="semanas"></section>
+  <section class="card">
+    <h2>Seu progresso</h2>
+    <p class="note">O progresso fica salvo neste navegador. Para usar em outro aparelho ou guardar uma cópia, exporte e depois importe o arquivo.</p>
+    <div class="toolbar">
+      <button class="btn" id="exportar">Exportar progresso</button>
+      <button class="btn" id="importarBtn">Importar progresso</button>
+      <input type="file" id="importar" accept="application/json" hidden>
+      <button class="btn" id="zerar">Zerar progresso</button>
+    </div>
+  </section>
+</main>
+
+<script id="plan-data" type="application/json">__PLAN_JSON__</script>
+<script>
+(function(){
+  var plan = JSON.parse(document.getElementById('plan-data').textContent);
+  var DIAS = {seg:'Segunda',ter:'Terça',qua:'Quarta',qui:'Quinta',sex:'Sexta',sab:'Sábado',dom:'Domingo'};
+  var ORDEM = ['seg','ter','qua','qui','sex','sab','dom'];
+  var KEY = 'pocket-polyglot:' + (plan.id || plan.titulo || 'plano');
+  var mem = {};
+  function load(){ try{ var s = localStorage.getItem(KEY); mem = s ? JSON.parse(s) : {}; }catch(e){ mem = mem || {}; } }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
+  function el(tag, attrs, kids){
+    var n = document.createElement(tag);
+    if(attrs) for(var k in attrs){ if(k==='text') n.textContent = attrs[k]; else if(k==='html') n.innerHTML = attrs[k]; else n.setAttribute(k, attrs[k]); }
+    (kids||[]).forEach(function(c){ if(c) n.appendChild(typeof c==='string'?document.createTextNode(c):c); });
+    return n;
+  }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function safeUrl(u){ return /^https?:\/\//i.test(u||'') ? u : null; }
+  var studyDays = (plan.dias_estudo||[]).filter(function(d){return DIAS[d];});
+
+  // Vocabulário compacto ("termo | tradução | exemplo") ou objeto
+  function vocItem(v){
+    if(typeof v==='string'){ var p=v.split(/\s*[|\t]\s*/); return {termo:p[0]||'',traducao:p[1]||'',exemplo:p[2]||''}; }
+    return v||{};
+  }
+  function parseVoc(txt){ return String(txt||'').split(/\r?\n/).map(function(l){return l.trim();}).filter(function(l){return l && !/^#/.test(l);}).map(vocItem).filter(function(v){return v.termo;}); }
+  // Semana-tipo: os dias são montados a partir do modelo, trocando {tema}, {gramatica} e {chave} por w.tarefas[chave]
+  function fill(s,w){
+    return String(s==null?'':s).replace(/\{([\w]+)\}/g,function(m,k){
+      var v = k==='tema' ? w.tema : k==='gramatica' ? (w.gramatica&&w.gramatica.topico) : (w.tarefas||{})[k];
+      return v==null ? m : v;
+    });
+  }
+  function fromModel(t,code,w){
+    return {dia:code, foco:fill(t.foco,w), blocos:(t.blocos||[]).map(function(b){
+      return {atividade:fill(b.atividade,w), recurso:fill(b.recurso,w), minutos:b.minutos, instrucoes:fill(b.instrucoes,w)}; })};
+  }
+  (plan.semanas||[]).forEach(function(w){
+    if(!w.dias && plan.semana_tipo){
+      w.dias = Object.keys(plan.semana_tipo).map(function(code){ return fromModel(plan.semana_tipo[code],code,w); });
+    }
+    var sub = w.substituir_dias || {};
+    Object.keys(sub).forEach(function(code){
+      var nd = fromModel(sub[code],code,w);
+      w.dias = (w.dias||[]).filter(function(d){return d.dia!==code;}).concat([nd]);
+    });
+    w.vocabulario = (w.vocabulario||[]).map(vocItem);
+  });
+
+  load();
+  document.title = plan.titulo || 'Pocket Polyglot';
+  document.getElementById('titulo').textContent = plan.titulo || 'Pocket Polyglot';
+  document.getElementById('subtitulo').textContent =
+    [plan.idioma_alvo, (plan.nivel_atual && plan.nivel_alvo) ? plan.nivel_atual + ' → ' + plan.nivel_alvo : '', plan.ciclo ? 'Ciclo ' + plan.ciclo : '',
+     plan.minutos_por_dia ? plan.minutos_por_dia + ' min/dia' : ''].filter(Boolean).join(' · ');
+
+  // Resumo
+  var r = document.getElementById('resumo');
+  r.appendChild(el('h2',{text:'Visão geral'}));
+  var g = el('div',{class:'grid'});
+  [['Objetivo',plan.objetivo],['Nível',(plan.nivel_atual||'?')+' → '+(plan.nivel_alvo||'?')],
+   ['Dias de estudo',studyDays.map(function(d){return DIAS[d];}).join(', ')],['Estimativa',plan.estimativa]]
+   .forEach(function(p){ if(p[1]) g.appendChild(el('div',{class:'kv',html:'<b>'+esc(p[0])+'</b>'+esc(p[1])})); });
+  r.appendChild(g);
+  if(plan.nivel_origem==='teste_ia'){
+    r.appendChild(el('p',{class:'aviso',html:'⚠️ <strong>Nível atual estimado por IA.</strong> Esta estimativa foi gerada pelo teste de nivelamento da skill para calibrar o plano e <strong>não substitui uma avaliação real de proficiência conforme o CEFR</strong>. Não a use como comprovação de nível.'}));
+  } else if(plan.nivel_origem==='autodeclarado'){
+    r.appendChild(el('p',{class:'aviso',text:'Nível atual informado por você, sem teste. Se o plano parecer fácil ou difícil demais, ajuste-o.'}));
+  }
+  if((plan.rotina_passiva||[]).length){
+    r.appendChild(el('h3',{text:'Imersão em tempos mortos (todos os dias)'}));
+    var ul = el('ul',{class:'plain'});
+    plan.rotina_passiva.forEach(function(p){ ul.appendChild(el('li',{html:'<strong>'+esc(p.momento)+':</strong> '+esc(p.conteudo)})); });
+    r.appendChild(ul);
+  }
+  if((plan.micro_habitos||[]).length){
+    r.appendChild(el('h3',{text:'Micro-hábitos'}));
+    var ul2 = el('ul',{class:'plain'});
+    plan.micro_habitos.forEach(function(m){ ul2.appendChild(el('li',{text:m})); });
+    r.appendChild(ul2);
+  }
+
+  // Semanas
+  var cont = document.getElementById('semanas');
+  var allKeys = [];
+  var weekEls = [];
+  (plan.semanas||[]).forEach(function(w, wi){
+    var keys = [];
+    var det = el('details',{class:'week'});
+    if(wi===0) det.open = true;
+    var prog = el('span',{class:'wprog'});
+    var sum = el('summary',null,[
+      el('div',{class:'wnum',text:String(w.numero||wi+1)}),
+      el('div',{class:'wtitle',html:'<strong>'+esc(w.tema)+'</strong><small>'+esc((w.gramatica&&w.gramatica.topico)||'')+((w.vocabulario||[]).length?' · '+w.vocabulario.length+' itens de vocabulário':'')+'</small>'}),
+      prog
+    ]);
+    det.appendChild(sum);
+    var body = el('div',{class:'wbody'});
+    if(w.objetivo_semana) body.appendChild(el('p',{html:'<strong>Meta da semana:</strong> '+esc(w.objetivo_semana)}));
+    if(w.micro_habito) body.appendChild(el('p',{html:'<strong>Micro-hábito novo:</strong> '+esc(w.micro_habito)}));
+    if(w.checkpoint){
+      var cp = w.checkpoint;
+      body.appendChild(el('div',{class:'aviso',html:'🎙️ <strong>Checkpoint: '+esc(cp.titulo||'gravação de progresso')+'</strong>'+(cp.tarefa?'<div>'+esc(cp.tarefa)+'</div>':'')+
+        ((cp.criterios||[]).length?'<ul class="plain">'+cp.criterios.map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul>':'')}));
+    }
+
+    // Dias
+    body.appendChild(el('h3',{text:'Dias'}));
+    var daysRow = el('div',{class:'days'});
+    var panel = el('div');
+    var byDay = {};
+    (w.dias||[]).forEach(function(d){ byDay[d.dia]=d; });
+    var openBtn = null;
+    ORDEM.forEach(function(code){
+      var d = byDay[code];
+      var isStudy = studyDays.indexOf(code)>=0 && d;
+      var key = 'w'+(w.numero||wi+1)+'-'+code;
+      var total = d ? (d.blocos||[]).reduce(function(a,b){return a+(+b.minutos||0);},0) : 0;
+      var btn = el('button',{class:'day'+(isStudy?'':' passive'),type:'button','aria-expanded':'false'},
+        [DIAS[code], el('small',{text: isStudy ? (d.foco||'')+' · '+total+' min' : 'Imersão passiva'})]);
+      if(isStudy){
+        keys.push(key); allKeys.push(key);
+        if(mem[key]) btn.classList.add('done');
+        btn.addEventListener('click',function(){
+          if(openBtn===btn){ panel.innerHTML=''; btn.setAttribute('aria-expanded','false'); openBtn=null; return; }
+          if(openBtn) openBtn.setAttribute('aria-expanded','false');
+          openBtn = btn; btn.setAttribute('aria-expanded','true');
+          panel.innerHTML='';
+          var p = el('div',{class:'daypanel'});
+          p.appendChild(el('div',{html:'<strong>'+DIAS[code]+' — '+esc(d.foco||'')+'</strong> <span class="tag">'+total+' min</span>'}));
+          (d.blocos||[]).forEach(function(b){
+            p.appendChild(el('div',{class:'block'},[
+              el('div',{class:'min',text:(b.minutos||0)+' min'}),
+              el('div',{html:'<strong>'+esc(b.atividade)+'</strong>'+(b.recurso?'<div class="res">Recurso: '+esc(b.recurso)+'</div>':'')+(b.instrucoes?'<div>'+esc(b.instrucoes)+'</div>':'')})
+            ]));
+          });
+          var cb = el('input',{type:'checkbox'}); cb.checked = !!mem[key];
+          cb.addEventListener('change',function(){ if(cb.checked) mem[key]=Date.now(); else delete mem[key]; save(); btn.classList.toggle('done',cb.checked); refresh(); });
+          p.appendChild(el('label',{class:'check'},[cb,'Dia concluído']));
+          panel.appendChild(p);
+        });
+      }
+      daysRow.appendChild(btn);
+    });
+    body.appendChild(daysRow); body.appendChild(panel);
+
+    // Gramática
+    if(w.gramatica){
+      body.appendChild(el('h3',{text:'Gramática: '+(w.gramatica.topico||'')}));
+      if(w.gramatica.explicacao) body.appendChild(el('p',{text:w.gramatica.explicacao}));
+      if((w.gramatica.exemplos||[]).length){ var ge=el('ul',{class:'gram-ex'}); w.gramatica.exemplos.forEach(function(x){ge.appendChild(el('li',{text:x}));}); body.appendChild(ge); }
+    }
+    // Recursos
+    if((w.recursos||[]).length){
+      body.appendChild(el('h3',{text:'Recursos e conteúdos'}));
+      var ru = el('ul',{class:'plain'});
+      w.recursos.forEach(function(x){
+        var u = safeUrl(x.url);
+        var name = u ? '<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(x.nome)+'</a>' : '<strong>'+esc(x.nome)+'</strong>';
+        ru.appendChild(el('li',{html:(x.tipo?'<span class="tag">'+esc(x.tipo)+'</span>':'')+name+(x.como_usar?' — '+esc(x.como_usar):'')}));
+      });
+      body.appendChild(ru);
+    }
+    // Vocabulário: embutido no plano ou adicionado depois (colado pelo usuário)
+    var vbox = el('div');
+    body.appendChild(vbox);
+    renderVocab(vbox, w, 'voc-w'+(w.numero||wi+1));
+    det.appendChild(body);
+    cont.appendChild(det);
+    weekEls.push({keys:keys,prog:prog});
+  });
+
+  function renderVocab(box, w, vkey){
+    box.innerHTML='';
+    var list = w.vocabulario.length ? w.vocabulario : parseVoc(mem[vkey]);
+    var foco = w.vocab_foco || [];
+    if(!list.length){
+      box.appendChild(el('h3',{text:'Vocabulário da semana'}));
+      if(foco.length) box.appendChild(el('p',{html:'<strong>Campos de vocabulário:</strong> '+foco.map(esc).join(' · ')}));
+      box.appendChild(el('p',{class:'note',text:'O vocabulário completo desta semana é gerado quando você chegar nela, ajustado ao que você já aprendeu. Peça ao Claude: "vocabulário da semana '+(w.numero||'')+'" e cole aqui a lista que ele devolver (uma linha por item: termo | tradução | exemplo).'}));
+      var ta = el('textarea',{rows:'5',placeholder:'termo | tradução | exemplo','aria-label':'Colar vocabulário',style:'width:100%;font:inherit;font-size:.88rem;padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text)'});
+      var add = el('button',{class:'btn',type:'button',text:'Adicionar vocabulário'});
+      add.addEventListener('click',function(){ if(!parseVoc(ta.value).length) return; mem[vkey]=ta.value; save(); renderVocab(box,w,vkey); });
+      box.appendChild(ta); box.appendChild(el('div',{class:'toolbar'},[add]));
+      return;
+    }
+    box.appendChild(el('h3',{text:'Vocabulário ('+list.length+')'}));
+    var search = el('input',{type:'search',placeholder:'Filtrar vocabulário…','aria-label':'Filtrar vocabulário'});
+    var copyBtn = el('button',{class:'btn',type:'button',text:'Copiar para Anki (TSV)'});
+    var tools = [search,copyBtn];
+    if(!w.vocabulario.length){
+      var rm = el('button',{class:'btn',type:'button',text:'Trocar lista'});
+      rm.addEventListener('click',function(){ delete mem[vkey]; save(); renderVocab(box,w,vkey); });
+      tools.push(rm);
+    }
+    box.appendChild(el('div',{class:'vocab-tools'},tools));
+    var tbody = el('tbody');
+    list.forEach(function(v){
+      tbody.appendChild(el('tr',null,[el('td',{html:'<strong>'+esc(v.termo)+'</strong>'}),el('td',{text:v.traducao||''}),el('td',{class:'ex',text:v.exemplo||''})]));
+    });
+    box.appendChild(el('div',{class:'tablewrap'},[el('table',null,[el('thead',{html:'<tr><th>Termo</th><th>Tradução</th><th>Exemplo</th></tr>'}),tbody])]));
+    search.addEventListener('input',function(){ var q=search.value.toLowerCase(); Array.prototype.forEach.call(tbody.rows,function(tr){ tr.style.display = tr.textContent.toLowerCase().indexOf(q)>=0?'':'none'; }); });
+    copyBtn.addEventListener('click',function(){
+      var tsv = list.map(function(v){ return [v.exemplo||v.termo, v.termo+' — '+(v.traducao||'')].join('\t'); }).join('\n');
+      var done=function(){ copyBtn.textContent='Copiado!'; setTimeout(function(){copyBtn.textContent='Copiar para Anki (TSV)';},1500); };
+      try{ navigator.clipboard.writeText(tsv).then(done,function(){ fallbackCopy(tsv); done(); }); }catch(e){ fallbackCopy(tsv); done(); }
+    });
+  }
+
+  function fallbackCopy(t){ var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); }
+
+  function refresh(){
+    var done = allKeys.filter(function(k){return mem[k];}).length;
+    var pct = allKeys.length ? Math.round(done*100/allKeys.length) : 0;
+    document.getElementById('barfill').style.width = pct+'%';
+    document.getElementById('pct').textContent = pct+'%';
+    document.getElementById('contagem').textContent = done+' de '+allKeys.length+' dias de estudo concluídos';
+    weekEls.forEach(function(we){ var d=we.keys.filter(function(k){return mem[k];}).length; we.prog.textContent = d+'/'+we.keys.length+' dias'; });
+  }
+  refresh();
+
+  document.getElementById('exportar').addEventListener('click',function(){
+    var blob = new Blob([JSON.stringify({plano:KEY,progresso:mem},null,2)],{type:'application/json'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'progresso-'+(plan.id||'plano')+'.json'; document.body.appendChild(a); a.click(); a.remove();
+  });
+  document.getElementById('importarBtn').addEventListener('click',function(){ document.getElementById('importar').click(); });
+  document.getElementById('importar').addEventListener('change',function(e){
+    var f = e.target.files[0]; if(!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){ try{ var o = JSON.parse(rd.result); mem = o.progresso || {}; save(); location.reload(); }catch(err){ document.getElementById('contagem').textContent='Arquivo inválido.'; } };
+    rd.readAsText(f);
+  });
+  document.getElementById('zerar').addEventListener('click',function(){
+    var b=this; if(b.dataset.confirm){ mem={}; save(); location.reload(); return; }
+    b.dataset.confirm='1'; b.textContent='Clique de novo para confirmar'; setTimeout(function(){ delete b.dataset.confirm; b.textContent='Zerar progresso'; },3000);
+  });
+})();
+</script>
+</body>
+</html>
